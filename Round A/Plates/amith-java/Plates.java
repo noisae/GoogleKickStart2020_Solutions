@@ -27,30 +27,30 @@ public class Solution {
 	}
 
 	private int maxPlatesBeautyValue(int[][] values, int numberOfPlates) {
-		int n = values.length;
-		int k = values[0].length;
-		int p = numberOfPlates;
+		int numberOfStacks = values.length;
+		int platesPeerStack = values[0].length;
+		int platesToPick = numberOfPlates;
 		
-		int[][] prefixSum = new int[n + 1][k + 1];
-		int[][] lookup = new int[n + 1][p + 1];
+		int[][] prefixSum = new int[numberOfStacks + 1][platesPeerStack + 1];
+		int[][] lookup = new int[numberOfStacks + 1][platesToPick + 1];
 
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= k; j++) {
+		for (int i = 1; i <= numberOfStacks; i++) {
+			for (int j = 1; j <= platesPeerStack; j++) {
 				prefixSum[i][j] = prefixSum[i][j - 1] + values[i - 1][j - 1];
 			}
 		}
 
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= p; j++) {
+		for (int i = 1; i <= numberOfStacks; i++) {
+			for (int j = 1; j <= platesToPick; j++) {
 				lookup[i][j] = 0;
 
-				for (int x = 0; x <= Math.min(j, k); x++) {
+				for (int x = 0; x <= Math.min(j, platesPeerStack); x++) {
 					lookup[i][j] = Math.max(lookup[i][j], prefixSum[i][x] + lookup[i - 1][j - x]);
 				}
 			}
 		}
 
-		return lookup[n][p];
+		return lookup[numberOfStacks][platesPeerStack];
 	}
 
 }
